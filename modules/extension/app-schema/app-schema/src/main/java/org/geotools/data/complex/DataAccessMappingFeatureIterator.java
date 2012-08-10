@@ -939,9 +939,9 @@ public class DataAccessMappingFeatureIterator extends AbstractMappingFeatureIter
                     continue;
                 }
                 if (attMapping.isList()) {
-                    Attribute instance = setAttributeValue(target, null, sources.get(0),
+                    Attribute instance = (Feature) setAttributeValue(target, null, sources.get(0),
                             attMapping, null, null, selectedProperties.get(attMapping));
-                    if (sources.size() > 1 && instance != null) {
+                    if (sources.size() > 1 && target != null) {
                         List<Object> values = new ArrayList<Object>();
                         Expression sourceExpr = attMapping.getSourceExpression();
                         for (Feature source : sources) {
@@ -950,7 +950,7 @@ public class DataAccessMappingFeatureIterator extends AbstractMappingFeatureIter
                         String valueString = StringUtils.join(values.iterator(), " ");
                         StepList fullPath = attMapping.getTargetXPath();
                         StepList leafPath = fullPath.subList(fullPath.size() - 1, fullPath.size());
-                        if (instance instanceof ComplexAttributeImpl) {              
+                        if (target instanceof ComplexAttributeImpl) {              
                             // xpath builder will work out the leaf attribute to set values on
                             xpathAttributeBuilder.set(instance, leafPath, valueString, null, null,
                                     false, sourceExpr);
