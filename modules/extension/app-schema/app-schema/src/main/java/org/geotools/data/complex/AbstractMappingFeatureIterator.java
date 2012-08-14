@@ -381,7 +381,7 @@ public abstract class AbstractMappingFeatureIterator implements IMappingFeatureI
 			Thread thread = new Thread(finder);	
 			long currentTime = System.currentTimeMillis();
 			thread.start();
-			while (thread.isAlive()  && (System.currentTimeMillis() - currentTime)/1000 > resolveTimeOut ) {			    
+			while (thread.isAlive()  && (System.currentTimeMillis() - currentTime)/1000 < resolveTimeOut ) {			    
 			    try {
 			        Thread.sleep(500);
 			    }
