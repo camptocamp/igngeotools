@@ -391,9 +391,9 @@ public abstract class AbstractMappingFeatureIterator implements IMappingFeatureI
 	        	finder.stopFlag.set(true);
 	        }
 			
-			//found it
-			
 			if (finder.getFeature() != null) {
+				
+				//found it
 				//target
 				instance = xpathAttributeBuilder.set(target, xpath, Collections.singletonList(finder.getFeature()), id, targetNodeType, false, sourceExpression);
 				

@@ -221,7 +221,7 @@ public interface GetPropertyValueType extends BaseRequestType {
      * @model 
      * @generated NOT
      */
-    Integer getResolveDepth();
+    String getResolveDepth();
 
     /**
      * Sets the value of the '{@link net.opengis.wfs20.GetPropertyValueType#getResolveDepth <em>Resolve Depth</em>}' attribute.
@@ -231,7 +231,7 @@ public interface GetPropertyValueType extends BaseRequestType {
      * @see #getResolveDepth()
      * @generated
      */
-    void setResolveDepth(Integer value);
+    void setResolveDepth(String value);
 
     /**
      * Returns the value of the '<em><b>Resolve Path</b></em>' attribute.

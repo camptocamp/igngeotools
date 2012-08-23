@@ -147,7 +147,7 @@ public class GetPropertyValueTypeImpl extends BaseRequestTypeImpl implements Get
      * @generated
      * @ordered
      */
-    protected static final Integer RESOLVE_DEPTH_EDEFAULT = null;
+    protected static final String RESOLVE_DEPTH_EDEFAULT = "*";
 
     /**
      * The cached value of the '{@link #getResolveDepth() <em>Resolve Depth</em>}' attribute.
@@ -157,7 +157,7 @@ public class GetPropertyValueTypeImpl extends BaseRequestTypeImpl implements Get
      * @generated
      * @ordered
      */
-    protected Integer resolveDepth = RESOLVE_DEPTH_EDEFAULT;
+    protected String resolveDepth = RESOLVE_DEPTH_EDEFAULT;
 
     /**
      * The default value of the '{@link #getResolvePath() <em>Resolve Path</em>}' attribute.
@@ -461,7 +461,7 @@ public class GetPropertyValueTypeImpl extends BaseRequestTypeImpl implements Get
      * <!-- end-user-doc -->
      * @generated
      */
-    public Integer getResolveDepth() {
+    public String getResolveDepth() {
         return resolveDepth;
     }
 
@@ -470,8 +470,8 @@ public class GetPropertyValueTypeImpl extends BaseRequestTypeImpl implements Get
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setResolveDepth(Integer newResolveDepth) {
-        Integer oldResolveDepth = resolveDepth;
+    public void setResolveDepth(String newResolveDepth) {
+        String oldResolveDepth = resolveDepth;
         resolveDepth = newResolveDepth;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, Wfs20Package.GET_PROPERTY_VALUE_TYPE__RESOLVE_DEPTH, oldResolveDepth, resolveDepth));
@@ -711,7 +711,7 @@ public class GetPropertyValueTypeImpl extends BaseRequestTypeImpl implements Get
                 setResolve((ResolveValueType)newValue);
                 return;
             case Wfs20Package.GET_PROPERTY_VALUE_TYPE__RESOLVE_DEPTH:
-                setResolveDepth((Integer)newValue);
+                setResolveDepth((String)newValue);
                 return;
             case Wfs20Package.GET_PROPERTY_VALUE_TYPE__RESOLVE_PATH:
                 setResolvePath((String)newValue);
