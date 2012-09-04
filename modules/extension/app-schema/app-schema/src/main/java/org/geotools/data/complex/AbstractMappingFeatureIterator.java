@@ -349,9 +349,9 @@ public abstract class AbstractMappingFeatureIterator implements IMappingFeatureI
 	    public void run() {
 	    	try {
 	    		Feature feature = DataAccessRegistry.getInstance().findFeature(new FeatureIdImpl (urn[urn.length-1]), hints, stopFlag);
-	    		if (!stopFlag.get()) {
-	    			setFeature(feature);
-	    		}
+		    	if (!stopFlag.get()) {
+		    		setFeature(feature);
+		    	}	    		
 			} catch (IOException e) { // ignore, no resolve
 			}    		
 	    }
@@ -364,41 +364,45 @@ public abstract class AbstractMappingFeatureIterator implements IMappingFeatureI
     	
     	if (clientProperties.containsKey(XLINK_HREF_NAME) && resolveDepth > 0) {
     		//local resolve
-    		
-    		final Hints hints = new Hints();
-    		if (resolveDepth > 1 ) {
-    			hints.put(Hints.RESOLVE, ResolveValueType.ALL);
-    			hints.put(Hints.RESOLVE_TIMEOUT, resolveTimeOut);
-    			hints.put(Hints.ASSOCIATION_TRAVERSAL_DEPTH, resolveDepth - 1);
-    		} else {
-    			hints.put(Hints.RESOLVE, ResolveValueType.NONE);
-    		}
-    		
+    		    		
     		String[] urn = getValue(clientProperties.get(XLINK_HREF_NAME), source).toString().split(":");
 							
-			//let's try finding it
-    		FeatureFinder finder = new FeatureFinder(urn, hints);
-			Thread thread = new Thread(finder);	
-			long currentTime = System.currentTimeMillis();
-			thread.start();
-			while (thread.isAlive()  && (System.currentTimeMillis() - currentTime)/1000 < resolveTimeOut ) {			    
-			    try {
-			        Thread.sleep(500);
-			    }
-			    catch (InterruptedException t) {}
-			}
-			synchronized(finder.stopFlag) {
-	        	finder.stopFlag.set(true);
-	        }
-			
-			if (finder.getFeature() != null) {
+    		if (!"missing".equals(urn[urn.length-1])) {
+    			
+        		final Hints hints = new Hints();
+        		if (resolveDepth > 1 ) {
+        			hints.put(Hints.RESOLVE, ResolveValueType.ALL);
+        			hints.put(Hints.RESOLVE_TIMEOUT, resolveTimeOut);
+        			hints.put(Hints.ASSOCIATION_TRAVERSAL_DEPTH, resolveDepth - 1);
+        		} else {
+        			hints.put(Hints.RESOLVE, ResolveValueType.NONE);
+        		}
+    			
+				//let's try finding it
+    			
+	    		FeatureFinder finder = new FeatureFinder(urn, hints);
+				Thread thread = new Thread(finder);	
+				long currentTime = System.currentTimeMillis();
+				thread.start();
+				while (thread.isAlive()  && (System.currentTimeMillis() - currentTime)/1000 < resolveTimeOut ) {			    
+				    try {
+				        Thread.sleep(500);
+				    }
+				    catch (InterruptedException t) {}
+				}
+				synchronized(finder.stopFlag) {
+		        	finder.stopFlag.set(true);
+		        }
 				
-				//found it
-				//target
-				instance = xpathAttributeBuilder.set(target, xpath, Collections.singletonList(finder.getFeature()), id, targetNodeType, false, sourceExpression);
-				
-				properties.remove(XLINK_HREF_NAME);
-			}	
+				if (finder.getFeature() != null) {
+					
+					//found it
+					//target
+					instance = xpathAttributeBuilder.set(target, xpath, Collections.singletonList(finder.getFeature()), id, targetNodeType, false, sourceExpression);
+					
+					properties.remove(XLINK_HREF_NAME);
+				}	
+    		}
 			
     	} 
     	
