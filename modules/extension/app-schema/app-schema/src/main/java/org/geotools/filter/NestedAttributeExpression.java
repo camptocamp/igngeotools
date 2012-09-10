@@ -274,7 +274,7 @@ public class NestedAttributeExpression extends AttributeExpressionImpl {
             return nestedMapping.getInputFeatures(val, fMapping);
         } else {
             // app-schema with a complex feature source
-            return nestedMapping.getFeatures(val, null, root);
+            return nestedMapping.getFeatures(val, null, root, 0, null);
         }
     }
 
