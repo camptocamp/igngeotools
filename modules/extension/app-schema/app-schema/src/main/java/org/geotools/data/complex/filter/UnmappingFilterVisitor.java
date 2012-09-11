@@ -852,62 +852,233 @@ public class UnmappingFilterVisitor implements org.opengis.filter.FilterVisitor,
 
     //temporal filters
     public Object visit(After after, Object extraData) {
-        return visit((BinaryTemporalOperator)after, extraData);
+      Expression[][] expressions = visitBinaryTemporalOperator(after);
+  	  List combinedFilters = new ArrayList(expressions.length);
+
+        for (int i = 0; i < expressions.length; i++) {
+            Expression left = expressions[i][0];
+            Expression right = expressions[i][1];
+            After unrolled = ff.after(left, right);
+            combinedFilters.add(unrolled);
+        }
+
+        Filter unrolled = combineOred(combinedFilters);
+        return unrolled;
     }
 
     public Object visit(AnyInteracts anyInteracts, Object extraData) {
-        return visit((BinaryTemporalOperator)anyInteracts, extraData);
+        Expression[][] expressions = visitBinaryTemporalOperator(anyInteracts);
+    	  List combinedFilters = new ArrayList(expressions.length);
+
+          for (int i = 0; i < expressions.length; i++) {
+              Expression left = expressions[i][0];
+              Expression right = expressions[i][1];
+              AnyInteracts unrolled = ff.anyInteracts(left, right);
+              combinedFilters.add(unrolled);
+          }
+
+          Filter unrolled = combineOred(combinedFilters);
+          return unrolled;
     }
 
-    public Object visit(Before before, Object extraData) {
-        return visit((BinaryTemporalOperator)before, extraData);
-    }
+	public Object visit(Before before, Object extraData) {
+		Expression[][] expressions = visitBinaryTemporalOperator(before);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			Before unrolled = ff.before(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
+	}
 
     public Object visit(Begins begins, Object extraData) {
-        return visit((BinaryTemporalOperator)begins, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(begins);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			Begins unrolled = ff.begins(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(BegunBy begunBy, Object extraData) {
-        return visit((BinaryTemporalOperator)begunBy, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(begunBy);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			BegunBy unrolled = ff.begunBy(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(During during, Object extraData) {
-        return visit((BinaryTemporalOperator)during, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(during);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			During unrolled = ff.during(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
+
     }
 
     public Object visit(EndedBy endedBy, Object extraData) {
-        return visit((BinaryTemporalOperator)endedBy, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(endedBy);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			EndedBy unrolled = ff.endedBy(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(Ends ends, Object extraData) {
-        return visit((BinaryTemporalOperator)ends, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(ends);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			Ends unrolled = ff.ends(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(Meets meets, Object extraData) {
-        return visit((BinaryTemporalOperator)meets, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(meets);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			Meets unrolled = ff.meets(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(MetBy metBy, Object extraData) {
-        return visit((BinaryTemporalOperator)metBy, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(metBy);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			MetBy unrolled = ff.metBy(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(OverlappedBy overlappedBy, Object extraData) {
-        return visit((BinaryTemporalOperator)overlappedBy, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(overlappedBy);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			OverlappedBy unrolled = ff.overlappedBy(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(TContains contains, Object extraData) {
-        return visit((BinaryTemporalOperator)contains, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(contains);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			Filter unrolled = ff.tcontains(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(TEquals equals, Object extraData) {
-        return visit((BinaryTemporalOperator)equals, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(equals);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			Filter unrolled = ff.tequals(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
 
     public Object visit(TOverlaps contains, Object extraData) {
-        return visit((BinaryTemporalOperator)contains, extraData);
+		Expression[][] expressions = visitBinaryTemporalOperator(contains);
+		List combinedFilters = new ArrayList(expressions.length);
+
+		for (int i = 0; i < expressions.length; i++) {
+			Expression left = expressions[i][0];
+			Expression right = expressions[i][1];
+			Filter unrolled = ff.toverlaps(left, right);
+			combinedFilters.add(unrolled);
+		}
+
+		Filter unrolled = combineOred(combinedFilters);
+		return unrolled;
     }
     
-    protected Object visit(BinaryTemporalOperator filter, Object data) {
-        throw new UnsupportedOperationException("Temporal filters not supported");
+    protected Expression[][] visitBinaryTemporalOperator(BinaryTemporalOperator filter) {
+    	Expression left = filter.getExpression1();
+        Expression right = filter.getExpression2();
+
+        List leftExpressions = (List) left.accept(this, null);
+        List rightExpressions = (List) right.accept(this, null);
+
+        if (leftExpressions.size() == 0) {
+            throw new IllegalStateException(left + " mapping not found");
+        }
+
+        if (rightExpressions.size() == 0) {
+            throw new IllegalStateException(right + " mapping not found");
+        }
+
+        Expression[][] product = buildExpressionsMatrix(leftExpressions, rightExpressions);
+
+        return product;
     }
 }

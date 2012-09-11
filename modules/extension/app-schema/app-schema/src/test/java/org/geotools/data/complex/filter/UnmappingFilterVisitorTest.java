@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,6 +34,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.xml.namespace.QName;
 
@@ -91,6 +93,19 @@ import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.identity.FeatureId;
 import org.opengis.filter.spatial.BBOX;
 import org.opengis.filter.spatial.Intersects;
+import org.opengis.filter.temporal.After;
+import org.opengis.filter.temporal.AnyInteracts;
+import org.opengis.filter.temporal.Begins;
+import org.opengis.filter.temporal.BegunBy;
+import org.opengis.filter.temporal.During;
+import org.opengis.filter.temporal.EndedBy;
+import org.opengis.filter.temporal.Ends;
+import org.opengis.filter.temporal.Meets;
+import org.opengis.filter.temporal.MetBy;
+import org.opengis.filter.temporal.OverlappedBy;
+import org.opengis.filter.temporal.TContains;
+import org.opengis.filter.temporal.TEquals;
+import org.opengis.filter.temporal.TOverlaps;
 import org.xml.sax.helpers.NamespaceSupport;
 
 import com.vividsolutions.jts.geom.Coordinate;
@@ -775,5 +790,245 @@ public class UnmappingFilterVisitorTest extends AppSchemaTestSupport {
     	assertEquals(bbox3d.getMaxZ(), unrolled3d.getMaxZ(), 0.0);
     	
     }
+
+    // Tests for temporal filters
+	@Test
+	public void testAfterFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		After after = ff.after(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		After unmapped = (After) after.accept(visitor, null);
+		assertEquals(after.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(after.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testAnyInteractsFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		AnyInteracts after = ff.anyInteracts(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		AnyInteracts unmapped = (AnyInteracts) after.accept(visitor, null);
+		assertEquals(after.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(after.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testBeforeFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		org.opengis.filter.temporal.Before filter = ff.before(
+				ff.property("last_maintenance"), ff.literal(cal.getTime()));
+
+		org.opengis.filter.temporal.Before unmapped = (org.opengis.filter.temporal.Before) filter
+				.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testBeginsFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		Begins filter = ff.begins(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		Begins unmapped = (Begins) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testBegunByFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		BegunBy filter = ff.begunBy(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		BegunBy unmapped = (BegunBy) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testDuringFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		During filter = ff.during(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		During unmapped = (During) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testEndedByFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		EndedBy filter = ff.endedBy(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		EndedBy unmapped = (EndedBy) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testEndsFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		Ends filter = ff.ends(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		Ends unmapped = (Ends) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testMeetsFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		Meets filter = ff.meets(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		Meets unmapped = (Meets) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testMetByFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		MetBy filter = ff.metBy(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		MetBy unmapped = (MetBy) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testOverlappedByFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		OverlappedBy filter = ff.overlappedBy(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		OverlappedBy unmapped = (OverlappedBy) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testTContainsFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		TContains filter = ff.tcontains(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		TContains unmapped = (TContains) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testTEqualsFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		TEquals filter = ff.tequals(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		TEquals unmapped = (TEquals) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
+
+	@Test
+	public void testTOverlapsFilter() throws Exception {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(1905, 0, 1);
+		TOverlaps filter = ff.toverlaps(ff.property("last_maintenance"),
+				ff.literal(cal.getTime()));
+
+		TOverlaps unmapped = (TOverlaps) filter.accept(visitor, null);
+		assertEquals(filter.getMatchAction(), unmapped.getMatchAction());
+
+		Expression unmappedExpr1 = unmapped.getExpression1();
+		assertTrue(unmappedExpr1 instanceof PropertyName);
+		assertEquals("maintenance",
+				((PropertyName) unmappedExpr1).getPropertyName());
+		assertEquals(filter.getExpression2(), unmapped.getExpression2());
+	}
 
 }

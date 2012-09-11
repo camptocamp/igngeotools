@@ -17,8 +17,11 @@
 
 package org.geotools.data.complex;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.geotools.data.FeatureSource;
 import org.geotools.data.complex.filter.XPath;
@@ -214,6 +217,7 @@ public class TestData {
      * <li> determinand_description</li>
      * <li> results_value</li>
      * <li> location</li>
+     * <li> maintenance</li>
      * </ul>
      * </p>
      * <p>
@@ -246,6 +250,7 @@ public class TestData {
      *        determinand_description--&gt;measurement/determinand_description	
      *        results_value		--&gt;measurement/result
      *        location		--&gt;location
+     *        last_maintenance		--&gt;maintenance
      * </pre>
      * 
      * </p>
@@ -314,6 +319,11 @@ public class TestData {
         target = "wq_plus/location";
         mappings.add(new AttributeMapping(null, source, XPath.steps(targetFeature, target,
                 namespaces)));
+        
+        source = ff.property("maintenance");
+        target = "wq_plus/last_maintenance";
+        mappings.add(new AttributeMapping(null, source, XPath.steps(targetFeature, target,
+        		namespaces)));
 
         return new FeatureTypeMapping(wsSource, targetFeature, mappings,
                 namespaces);
@@ -422,6 +432,7 @@ public class TestData {
         builder.add("determinand_description", String.class);
         builder.add("results_value", Float.class);
         builder.add("location", Point.class);
+        builder.add("maintenance", Date.class);
 
         SimpleFeatureType type = builder.buildFeatureType();
 
@@ -447,8 +458,12 @@ public class TestData {
                 fb.add("sample_collection_date" + sufix);
                 fb.add("determinand_description" + sufix);
                 fb.add(new Float(groupValue + "." + measurement));
-
+                
                 fb.add(gf.createPoint(new Coordinate(groupValue, groupValue)));
+
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+                cal.set(1900+groupValue, 0, 1);
+                fb.add(cal.getTime());
 
                 SimpleFeature f = fb.buildFeature(fid);
                 dataStore.addFeature(f);
