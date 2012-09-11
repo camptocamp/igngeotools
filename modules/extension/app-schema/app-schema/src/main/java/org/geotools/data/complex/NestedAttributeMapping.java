@@ -189,19 +189,34 @@ public class NestedAttributeMapping extends AttributeMapping {
             	return Collections.EMPTY_LIST;
             }
 
-            // find source expression on nested features side
-            List<AttributeMapping> mappings = featureTypeMapping
-                    .getAttributeMappingsIgnoreIndex(this.nestedTargetXPath);
-            if (mappings.size() < 1) {
-                throw new IllegalArgumentException("Mapping is missing for: '"
-                        + this.nestedTargetXPath + "'!");
-            }
-            AttributeMapping mapping = mappings.get(0);
-            nestedSourceExpression = mapping.getSourceExpression();
+            AttributeMapping mapping = getMapping(featureTypeMapping);
+        	nestedSourceExpression = mapping.getSourceExpression();
             isMultiple = mapping.isMultiValued();
         }    
                 
         return getFilteredFeatures(foreignKeyValue, isMultiple);        
+    }
+    
+    public AttributeMapping getMapping(FeatureTypeMapping featureTypeMapping) {
+    	// find source expression on nested features side
+        AttributeMapping mapping;
+        if (!ComplexFeatureConstants.FEATURE_CHAINING_LINK_STRING.equals(nestedTargetXPath.get(nestedTargetXPath.size()-1).getName().getLocalPart())) {
+        	List<AttributeMapping> mappings = featureTypeMapping
+                .getAttributeMappingsIgnoreIndex(this.nestedTargetXPath);
+        	if (mappings.size() < 1) {
+        		throw new IllegalArgumentException("Mapping is missing for: '"
+                    + this.nestedTargetXPath + "'!");
+        	}
+        	mapping = mappings.get(0);
+        }
+        else {
+        	mapping = featureTypeMapping.getAttributeMapping(this.nestedTargetXPath);
+        	if (mapping == null) {
+        		throw new IllegalArgumentException("Mapping is missing for: '"
+                    + this.nestedTargetXPath + "'!");
+        	}
+        }
+        return mapping;
     }
     
     /**
@@ -311,14 +326,8 @@ public class NestedAttributeMapping extends AttributeMapping {
 
                 nestedIdExpression = fMapping.getFeatureIdExpression();
 
-                // find source expression on nested features side
-                List<AttributeMapping> mappings = fMapping
-                        .getAttributeMappingsIgnoreIndex(this.nestedTargetXPath);
-                if (mappings.size() < 1) {
-                    throw new IllegalArgumentException("Mapping is missing for: '"
-                            + this.nestedTargetXPath + "'!");
-                }
-                AttributeMapping mapping = mappings.get(0);
+                // find source expression on nested features side                
+                AttributeMapping mapping = getMapping(fMapping);
                 nestedSourceExpression = mapping.getSourceExpression();
                 isMultiple = mapping.isMultiValued();
             }

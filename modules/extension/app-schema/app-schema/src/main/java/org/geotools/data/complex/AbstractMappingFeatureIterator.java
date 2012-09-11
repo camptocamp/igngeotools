@@ -357,10 +357,14 @@ public abstract class AbstractMappingFeatureIterator implements IMappingFeatureI
 	    }
 	};
     
-    protected Attribute setAttributeContent(Attribute target, StepList xpath, Object value, String id, AttributeType targetNodeType, boolean isXlinkRef, Expression sourceExpression, Object source, final Map<Name, Expression> clientProperties){
+    protected Attribute setAttributeContent(Attribute target, StepList xpath, Object value, String id, AttributeType targetNodeType, boolean isXlinkRef, Expression sourceExpression, Object source, final Map<Name, Expression> clientProperties, boolean ignoreXlinkHref){
     	Attribute instance = null;
     	
     	Map<Name, Expression> properties = new HashMap<Name, Expression>(clientProperties);
+    	
+    	if (ignoreXlinkHref) {
+			properties.remove(XLINK_HREF_NAME);
+    	}
     	
     	if (clientProperties.containsKey(XLINK_HREF_NAME) && resolveDepth > 0) {
     		//local resolve

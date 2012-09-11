@@ -503,9 +503,11 @@ public class DataAccessMappingFeatureIterator extends AbstractMappingFeatureIter
         boolean isHRefLink = isByReference(clientPropsMappings, isNestedFeature);
         int newResolveDepth = resolveDepth;
         //if resolving, no xlink:href for chained feature
+        boolean ignoreXlinkHref = false;
         if (isHRefLink && newResolveDepth > 0) {
         	isHRefLink = false;
         	newResolveDepth--;
+        	ignoreXlinkHref = true;        	
         }
         if (isNestedFeature) {
             // get built feature based on link value
@@ -585,7 +587,7 @@ public class DataAccessMappingFeatureIterator extends AbstractMappingFeatureIter
                 } else {
                     valueList.add(singleVal);
                 }
-                instance = setAttributeContent(target, xpath, valueList, id, targetNodeType, false, sourceExpression, source, clientPropsMappings);
+                instance = setAttributeContent(target, xpath, valueList, id, targetNodeType, false, sourceExpression, source, clientPropsMappings, ignoreXlinkHref);
             }
         } else {
             if (values instanceof Attribute) {
@@ -598,7 +600,7 @@ public class DataAccessMappingFeatureIterator extends AbstractMappingFeatureIter
                 }
                 values = ((Attribute) values).getValue();
             }
-            instance = setAttributeContent(target, xpath, values, id, targetNodeType, false, sourceExpression, source, clientPropsMappings);
+            instance = setAttributeContent(target, xpath, values, id, targetNodeType, false, sourceExpression, source, clientPropsMappings, ignoreXlinkHref);
 
         } 
         if (instance != null && attMapping.encodeIfEmpty()) {
