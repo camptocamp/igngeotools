@@ -77,7 +77,7 @@ public class MetByBinding extends AbstractComplexBinding {
      * @generated modifiable
      */
     public Object parse(ElementInstance instance, Node node, Object value) throws Exception {
-        Expression[] e = FESParseEncodeUtil.temporal(node, filterFactory);
+        Expression[] e = FESParseEncodeUtil.temporal(node, filterFactory, false);
         return filterFactory.metBy(e[0], e[1]);
     }
 
