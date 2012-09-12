@@ -37,11 +37,11 @@ public class TContainsBindingTest extends FESTestSupport {
 
         TContains contains = (TContains) parse();
         assertNotNull(contains);
-        
-        assertTrue(contains.getExpression1() instanceof PropertyName);
-        assertEquals("timeInstanceAttribute", ((PropertyName)contains.getExpression1()).getPropertyName());
 
-        assertTrue(contains.getExpression2() instanceof Literal);
-        assertTrue(contains.getExpression2().evaluate(null) instanceof Period);
+        assertTrue(contains.getExpression1() instanceof Literal);
+        assertTrue(contains.getExpression1().evaluate(null) instanceof Period);
+        
+        assertTrue(contains.getExpression2() instanceof PropertyName);
+        assertEquals("timeInstanceAttribute", ((PropertyName)contains.getExpression2()).getPropertyName());
     }
 }

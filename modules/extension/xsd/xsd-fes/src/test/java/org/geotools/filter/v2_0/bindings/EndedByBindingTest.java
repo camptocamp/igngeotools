@@ -36,11 +36,11 @@ public class EndedByBindingTest extends FESTestSupport {
         
         EndedBy endedBy = (EndedBy) parse();
         assertNotNull(endedBy);
-        
-        assertTrue(endedBy.getExpression1() instanceof PropertyName);
-        assertEquals("timeInstanceAttribute", ((PropertyName)endedBy.getExpression1()).getPropertyName());
 
-        assertTrue(endedBy.getExpression2() instanceof Literal);
-        assertTrue(endedBy.getExpression2().evaluate(null) instanceof Period);
+        assertTrue(endedBy.getExpression1() instanceof Literal);
+        assertTrue(endedBy.getExpression1().evaluate(null) instanceof Period);
+        
+        assertTrue(endedBy.getExpression2() instanceof PropertyName);
+        assertEquals("timeInstanceAttribute", ((PropertyName)endedBy.getExpression2()).getPropertyName());
     }
 }
