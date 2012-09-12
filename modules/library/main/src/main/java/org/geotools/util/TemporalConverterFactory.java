@@ -28,6 +28,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.geotools.factory.Hints;
+import org.opengis.temporal.Instant;
 
 /**
  * Converter factory which created converting between the various temporal types.
@@ -232,6 +233,26 @@ public class TemporalConverterFactory implements ConverterFactory {
                         }
                         return target.cast(((TimeZone) source).getID());
                     }
+                };
+            }
+        }
+        if (Instant.class.isAssignableFrom(source)) {
+        	if (Timestamp.class.isAssignableFrom(target) || Time.class.isAssignableFrom(target)
+                    || java.sql.Date.class.isAssignableFrom(target)) {
+
+                if ( isSafeOnly && Time.class.isAssignableFrom( target ) ) {
+                    //not safe
+                    return null;
+                }
+                
+                return new Converter() {
+
+                    public Object convert(Object source, Class target) throws Exception {
+                    	Instant instant = (Instant) source;
+                    	Date date = instant.getPosition().getDate();
+                        return timeMillisToDate(date.getTime(), target);
+                    }
+
                 };
             }
         }
