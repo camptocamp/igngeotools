@@ -33,7 +33,10 @@ import org.opengis.filter.expression.Literal;
 import org.opengis.filter.expression.PropertyName;
 import org.opengis.filter.spatial.BinarySpatialOperator;
 import org.opengis.filter.spatial.DistanceBufferOperator;
+import org.opengis.filter.temporal.BegunBy;
 import org.opengis.filter.temporal.BinaryTemporalOperator;
+import org.opengis.filter.temporal.EndedBy;
+import org.opengis.filter.temporal.TContains;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -48,7 +51,7 @@ public class FESParseEncodeUtil {
     /**
      * Parses the two operands for a binary temporal filter.
      */
-    static Expression[] temporal(Node node, FilterFactory factory) {
+    static Expression[] temporal(Node node, FilterFactory factory, boolean swapped) {
         PropertyName name = (PropertyName) node.getChildValue(PropertyName.class);
         Object other = null;
         for (Object o : node.getChildValues(Object.class)) {
@@ -71,8 +74,12 @@ public class FESParseEncodeUtil {
         else {
             expr = factory.literal(other);
         }
+        if(swapped) {
+        	return new Expression[]{expr, name};
+        } else {
+        	return new Expression[]{name, expr};
+        }
         
-        return new Expression[]{name, expr};
     }
     
     static Expression getProperty(BinaryTemporalOperator op, QName name) {
