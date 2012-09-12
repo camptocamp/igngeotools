@@ -28,10 +28,10 @@ public class BegunByBindingTest extends FESTestSupport {
         BegunBy begunBy = (BegunBy) parse();
         assertNotNull(begunBy);
         
-        assertTrue(begunBy.getExpression1() instanceof PropertyName);
-        assertEquals("timeInstanceAttribute", ((PropertyName)begunBy.getExpression1()).getPropertyName());
-
-        assertTrue(begunBy.getExpression2() instanceof Literal);
-        assertTrue(begunBy.getExpression2().evaluate(null) instanceof Instant);
+        assertTrue(begunBy.getExpression1() instanceof Literal);
+        assertTrue(begunBy.getExpression1().evaluate(null) instanceof Instant);
+        
+        assertTrue(begunBy.getExpression2() instanceof PropertyName);
+        assertEquals("timeInstanceAttribute", ((PropertyName)begunBy.getExpression2()).getPropertyName());
     }
 }
