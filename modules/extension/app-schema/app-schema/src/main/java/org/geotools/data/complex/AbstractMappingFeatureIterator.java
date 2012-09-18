@@ -366,7 +366,7 @@ public abstract class AbstractMappingFeatureIterator implements IMappingFeatureI
 			properties.remove(XLINK_HREF_NAME);
     	}
     	
-    	if (properties.containsKey(XLINK_HREF_NAME) && resolveDepth > 0) {
+    	if (properties.containsKey(XLINK_HREF_NAME) && getValue(properties.get(XLINK_HREF_NAME), source)!=null &&resolveDepth > 0) {
     		//local resolve
     		    		
     		String[] urn = getValue(properties.get(XLINK_HREF_NAME), source).toString().split(":");
