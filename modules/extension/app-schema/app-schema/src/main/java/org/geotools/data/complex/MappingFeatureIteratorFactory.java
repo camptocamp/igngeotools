@@ -106,7 +106,7 @@ public class MappingFeatureIteratorFactory {
             FeatureTypeMapping mapping, Query query, Filter unrolledFilter) throws IOException {
     	
     	if (query instanceof JoiningQuery) {
-    		query = new JoiningQuery(query);
+    		query = new JoiningQuery((JoiningQuery)query);
     	} else {
     		query = new Query(query);
     	}
