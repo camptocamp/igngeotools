@@ -85,7 +85,19 @@ public class FeaturePropertyAccessorFactory implements PropertyAccessorFactory {
     }
 
     /** Single instnace is fine - we are not stateful */
-    static PropertyAccessor ATTRIBUTE_ACCESS = new FeaturePropertyAccessor();
+    static PropertyAccessor ATTRIBUTE_ACCESS;
+    static {
+        NamespaceSupport ns = new NamespaceSupport();
+        ns.declarePrefix("au", "urn:x-inspire:specification:gmlas:AdministrativeUnits:3.0");
+        ns.declarePrefix("gml", "http://www.opengis.net/gml/3.2");
+        ns.declarePrefix("xlink", "http://www.w3.org/1999/xlink");
+        ns.declarePrefix("base", "urn:x-inspire:specification:gmlas:BaseTypes:3.2");
+        ns.declarePrefix("gmd", "http://www.isotc211.org/2005/gmd");
+        ns.declarePrefix("gn", "urn:x-inspire:specification:gmlas:GeographicalNames:3.0");
+        ns.declarePrefix("stat", "urn:x-inspire:specification:gmlas:StatisticalUnits:0.0");
+        
+        ATTRIBUTE_ACCESS = new FeaturePropertyAccessor(ns);
+    }
 
     static PropertyAccessor DEFAULT_GEOMETRY_ACCESS = new DefaultGeometryFeaturePropertyAccessor();
 
